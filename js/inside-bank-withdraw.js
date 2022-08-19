@@ -11,40 +11,29 @@ step-8: Error handel.
 
 document.getElementById('Withdraw-btn').addEventListener('click',()=>{
 
-    // step-2:
-    const withdrawInputField = document.getElementById('withdraw-input-field');
-    const withdrawInputText = withdrawInputField.value;
-    const withdrawInputNumber = parseFloat(withdrawInputText);
-    withdrawInputField.value = '';
-    if(isNaN(withdrawInputNumber) || withdrawInputNumber  === ''){
-        alert('Enter valid Number')
+    const withdrawFieldAmount = getInputFieldAmount('withdraw-input-field');
+    document.getElementById('withdraw-input-field').value = '';
+    if (isNaN(withdrawFieldAmount)) {
+        alert('Invalid Number')
         return '';
+        
+       }
+       const previousBalanceAmount = getElementAmount('balance-element');
+       
+    if (withdrawFieldAmount > previousBalanceAmount) {
+        alert('Insufficient balance');
+        return '';
+        
     }
 
-    // step-3:
-    const previousWithdrawElement = document.getElementById('withdraw-element');
-    const previousWithdrawText = previousWithdrawElement.innerText;
-    const previousWithdrawNumber = parseFloat(previousWithdrawText);
+    const previousWithdrawAmount = getElementAmount('withdraw-element');
+
+    const currentWithdrawAmount = previousWithdrawAmount + withdrawFieldAmount;
+    setNewAmount('withdraw-element',currentWithdrawAmount);
 
     
-
-    // step-6
-    const previousBalanceElement = document.getElementById('balance-element');
-    const previousBalanceText = previousBalanceElement.innerText;
-    const previousBalanceNumber = parseFloat(previousBalanceText);
-
-    // step-8
-    if(withdrawInputNumber > previousBalanceNumber){
-        alert('Insufficient balance')
-        return '';
-    }
-    // step-4:
-    const currentWithdrawAmount = previousWithdrawNumber + withdrawInputNumber;
-    previousWithdrawElement.innerText = currentWithdrawAmount;
-    // step-8
-    const currentBalanceAmount = previousBalanceNumber - withdrawInputNumber;
-
-    previousBalanceElement.innerText = currentBalanceAmount;
-
+   
+    const currentBalanceAmount = previousBalanceAmount - withdrawFieldAmount;
+    setNewAmount('balance-element',currentBalanceAmount);
     
 })
